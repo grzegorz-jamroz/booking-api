@@ -1,0 +1,53 @@
+version: '3'
+
+services:
+  booking-nginx-service:
+    image: nginx:stable-alpine
+    container_name: booking-nginx-container
+    ports:
+      - "8080:80"
+    working_dir: "/var/www/html/booking"
+    volumes:
+      - ".:/var/www/html/booking"
+      - "./docker/nginx/default.conf:/etc/nginx/conf.d/default.conf"
+    depends_on:
+      - booking-php-service
+      - booking-db-service
+      - booking-test-db-service
+    links:
+      - booking-php-service
+      - booking-db-service
+      - booking-test-db-service
+    networks:
+      - booking-network
+  booking-db-service:
+    build:
+      context: ./docker/database
+    container_name: booking-db-container
+    restart: always
+    networks:
+      - booking-network
+  booking-test-db-service:
+    build:
+      context: ./docker/test-database
+    container_name: booking-test-db-container
+    restart: always
+    networks:
+      - booking-network
+  booking-php-service:
+    build:
+      context: .
+      dockerfile: ./docker/php-fpm/Dockerfile
+    container_name: booking-php-container
+    restart: always
+    ports:
+      - "9000:9000"
+    depends_on:
+      - booking-db-service
+      - booking-test-db-service
+    volumes:
+      - ".:/var/www/html/booking"
+    networks:
+      - booking-network
+networks:
+  booking-network:
