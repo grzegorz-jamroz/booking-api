@@ -1,0 +1,131 @@
+{
+	"info": {
+		"_postman_id": "3fd52277-7284-4b3a-a8ab-87b85854d4e6",
+		"name": "Booking App",
+		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json"
+	},
+	"item": [
+		{
+			"name": "booking",
+			"item": [
+				{
+					"name": "find",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{base_url}}/booking",
+							"host": [
+								"{{base_url}}"
+							],
+							"path": [
+								"booking"
+							]
+						}
+					},
+					"response": []
+				}
+			]
+		},
+		{
+			"name": "vacancies",
+			"item": [
+				{
+					"name": "find",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{base_url}}/booking/vacancies",
+							"host": [
+								"{{base_url}}"
+							],
+							"path": [
+								"booking",
+								"vacancies"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "create",
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"from\": 1649548800,\r\n    \"to\": 1652140800\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{base_url}}/booking/vacancies",
+							"host": [
+								"{{base_url}}"
+							],
+							"path": [
+								"booking",
+								"vacancies"
+							]
+						}
+					},
+					"response": []
+				}
+			]
+		},
+		{
+			"name": "reservations",
+			"item": [
+				{
+					"name": "reservations",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{base_url}}/booking/reservations",
+							"host": [
+								"{{base_url}}"
+							],
+							"path": [
+								"booking",
+								"reservations"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "create",
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"from\": 1652572800,\r\n    \"to\": 1653436800\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{base_url}}/booking/reservations",
+							"host": [
+								"{{base_url}}"
+							],
+							"path": [
+								"booking",
+								"reservations"
+							]
+						}
+					},
+					"response": []
+				}
+			]
+		}
+	]
+}

@@ -40,6 +40,11 @@ docker exec -i booking-php-container php bin/console doctrine:schema:update --fo
 docker exec -i booking-php-container php bin/console --env=test  doctrine:schema:update --force
 ```
 
+6. Api is available under
+```
+http://localhost:8080
+```
+
 ## Commands
 
 ### Run fix (PHP CS Fixer + PHPStan)
@@ -65,3 +70,7 @@ or
 ```
 docker exec -i booking-php-container bin/test
 ```
+
+## Postman Collection
+
+You can download collection json [here](booking-api-postman-collection.json)
