@@ -22,11 +22,7 @@ class CreateVacanciesHandler
     {
         $from = $command->getDateFrom();
         $to = $command->getDateTo();
-
-        if ($from === 0 || $to === 0) {
-            throw new \Exception('Unable to create Vacancies. Given period is invalid.');
-        }
-
+        $this->validate($command);
         $days = new DayCollection($from, $to);
         $bookingDates = $this->repository->findDataByPeriodQuery($from, $to);
 
@@ -41,6 +37,19 @@ class CreateVacanciesHandler
                 Status::VACANCY
             );
             $this->repository->add($booking);
+        }
+    }
+
+    private function validate(CreateVacancies $command): void
+    {
+        $message = 'Unable to create Vacancies. Given period is invalid.';
+
+        if ($command->getDateFrom() === 0 || $command->getDateTo() === 0) {
+            throw new \Exception($message);
+        }
+
+        if ($command->getDateFrom() > $command->getDateTo()) {
+            throw new \Exception($message);
         }
     }
 }

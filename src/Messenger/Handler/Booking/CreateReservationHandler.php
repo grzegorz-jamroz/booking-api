@@ -21,11 +21,7 @@ class CreateReservationHandler
     {
         $from = $command->getDateFrom();
         $to = $command->getDateTo();
-
-        if ($from === 0 || $to === 0) {
-            throw new \Exception('Unable to create reservation. Given period is invalid.');
-        }
-
+        $this->validate($command);
         $vacancies = $this->repository->findDataByStatusAndPeriod(Status::VACANCY, $from, $to);
         $days = new DayCollection($from, $to);
 
@@ -35,5 +31,18 @@ class CreateReservationHandler
 
         $vacancyIds = array_map(fn (array $vacancy) => Transform::toInt($vacancy['id']), $vacancies);
         $this->repository->updateStatus(Status::RESERVED, $vacancyIds);
+    }
+
+    private function validate(CreateReservation $command): void
+    {
+        $message = 'Unable to create reservation. Given period is invalid.';
+
+        if ($command->getDateFrom() === 0 || $command->getDateTo() === 0) {
+            throw new \Exception($message);
+        }
+
+        if ($command->getDateFrom() > $command->getDateTo()) {
+            throw new \Exception($message);
+        }
     }
 }

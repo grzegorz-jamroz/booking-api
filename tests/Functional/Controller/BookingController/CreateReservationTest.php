@@ -129,6 +129,22 @@ class CreateReservationTest extends FunctionalTestCase
         }
     }
 
+    public function testShouldReturnErrorWhenDateFromIsGreaterThanDateTo()
+    {
+        // Expect & Given
+        $this->truncateTable(self::TABLE);
+        $reservationPeriod = [
+            'from' => strtotime("10-05-2022"),
+            'to' => strtotime("10-04-2022"),
+        ];
+
+        // When & Then
+        $this->client->request('POST', self::URI_RESERVATIONS, [], [], [], json_encode($reservationPeriod));
+        $response = json_decode($this->client->getResponse()->getContent(), true);
+        $this->assertResponseStatusCodeSame(400);
+        $this->assertStringContainsString('Unable to create reservation. Given period is invalid.', $response['message']);
+    }
+
     public function testShouldReturnErrorWhenGivenPeriodIsNotAvailable()
     {
         // Expect & Given

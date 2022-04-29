@@ -124,4 +124,22 @@ class CreateVacancyTest extends FunctionalTestCase
             $this->assertEquals('Unable to create Vacancies. Given period is invalid.', $response['message']);
         }
     }
+
+    public function testShouldReturnErrorWhenDateFromIsGreaterThanDateTo()
+    {
+        // Expect & Given
+        $this->truncateTable(self::TABLE);
+        $vacancyPeriod = [
+            'from' => strtotime("10-05-2022"),
+            'to' => strtotime("10-04-2022"),
+        ];
+
+        // When
+        $this->client->request('POST', self::URI_VACANCIES, [], [], [], json_encode($vacancyPeriod));
+        $response = json_decode($this->client->getResponse()->getContent(), true);
+
+        // Then
+        $this->assertResponseStatusCodeSame(400);
+        $this->assertStringContainsString('Unable to create Vacancies. Given period is invalid.', $response['message']);
+    }
 }
